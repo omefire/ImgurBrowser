@@ -17,6 +17,7 @@
 		04C227EB1CEEFE900047B1A3 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C227EA1CEEFE900047B1A3 /* CollectionViewCell.swift */; };
 		04C227ED1CEEFEBA0047B1A3 /* NewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C227EC1CEEFEBA0047B1A3 /* NewViewController.swift */; };
 		063E5C3694D842105C939048 /* Pods_starterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF125A73CC73DDCF8BA38E7 /* Pods_starterUITests.framework */; };
+		BECFBE931CF75686006DC531 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECFBE921CF75686006DC531 /* AboutController.swift */; };
 		DE47777114CBF7AE06BF963F /* Pods_starter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2924A136EB7CF219E4312C1A /* Pods_starter.framework */; };
 		F8D93B5D2252B49B6688A6C3 /* Pods_starterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7C69017484DA042679D503 /* Pods_starterTests.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,7 @@
 		59C956A1FC83F596FFCF1F4E /* Pods-starterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-starterUITests/Pods-starterUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BA4058FF02350D7602EB6A43 /* Pods-starter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starter.release.xcconfig"; path = "Pods/Target Support Files/Pods-starter/Pods-starter.release.xcconfig"; sourceTree = "<group>"; };
 		BA4CB843A39F675DACBDACFD /* Pods-starterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-starterTests/Pods-starterTests.release.xcconfig"; sourceTree = "<group>"; };
+		BECFBE921CF75686006DC531 /* AboutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		C2198051499DAAF7454389F2 /* Pods-starter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-starter/Pods-starter.debug.xcconfig"; sourceTree = "<group>"; };
 		DA7C69017484DA042679D503 /* Pods_starterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_starterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 		04C227BB1CEEE3FA0047B1A3 /* starter */ = {
 			isa = PBXGroup;
 			children = (
+				BECFBE921CF75686006DC531 /* AboutController.swift */,
 				04C227BC1CEEE3FA0047B1A3 /* AppDelegate.swift */,
 				04C227BE1CEEE3FA0047B1A3 /* ViewController.swift */,
 				04C227EA1CEEFE900047B1A3 /* CollectionViewCell.swift */,
@@ -434,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C227BF1CEEE3FA0047B1A3 /* ViewController.swift in Sources */,
+				BECFBE931CF75686006DC531 /* AboutController.swift in Sources */,
 				04C227BD1CEEE3FA0047B1A3 /* AppDelegate.swift in Sources */,
 				04C227EB1CEEFE900047B1A3 /* CollectionViewCell.swift in Sources */,
 				04C227ED1CEEFEBA0047B1A3 /* NewViewController.swift in Sources */,
@@ -581,7 +585,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = starter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applications.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applications.imgurbrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -593,7 +597,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = starter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applications.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applications.imgurbrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

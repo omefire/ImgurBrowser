@@ -2,8 +2,8 @@
 //  AboutController.swift
 //  starter
 //
-//  Created by Mac on 26/05/2016.
-//  Copyright © 2016 Imgur. All rights reserved.
+//  Created by omefire on 26/05/2016.
+//  Copyright © 2016 omefire. All rights reserved.
 //
 
 import UIKit

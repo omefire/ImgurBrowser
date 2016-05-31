@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  starter
 //
-//  Created by Mac on 20/05/2016.
-//  Copyright © 2016 Imgur. All rights reserved.
+//  Created by omefire on 20/05/2016.
+//  Copyright © 2016 omefire. All rights reserved.
 //
 
 import UIKit

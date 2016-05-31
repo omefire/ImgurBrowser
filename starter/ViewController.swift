@@ -2,17 +2,15 @@
 //  ViewController.swift
 //  starter
 //
-//  Created by Mac on 20/05/2016.
-//  Copyright © 2016 Imgur. All rights reserved.
+//  Created by omefire on 20/05/2016.
+//  Copyright © 2016 omefire. All rights reserved.
 //
 
 import UIKit
 import Alamofire
-import OAuthSwift
-import SwiftyJSON
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
+    
     @IBOutlet weak var catController: UISegmentedControl!
     
     @IBOutlet weak var label: UILabel!
@@ -30,7 +28,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var about: UIButton!
     
     let baseURL = "https://api.imgur.com/3/gallery"
-    var category = "/hot"
+    var section = "/hot"
     var sort = "/viral"
     var window = "/day"
     var viralState = "?showViral=true"
@@ -42,34 +40,68 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var downArray = [String]()
     var scoreArray = [String]()
     
+    // ToDO: save these in a file that will NOT be checked into git
+    // Then, how do they run the source code ? retrieve this from a service ?
     let authParameters = [
         "client_id": "30e7e7c1e3abd39",
         "client_secret": "ee7caab32f4faf0692b555355c5d3eaa02bb5fea"
     ]
     
     func prepareRequestURL () -> String {
-        return baseURL + category + sort + window + viralState
+        return baseURL + section + sort + window + viralState
     }
     
-    func fetchImages () {
+    func fetchImages() {
         self.loader.startAnimating()
         
         let headers = [
-            "Authorization": "Client-ID " + self.authParameters["client_id"]!
+            "Authorization": "Client-ID" + " " + self.authParameters["client_id"]!
         ]
         
-        Alamofire.request(.GET, self.prepareRequestURL(), headers: headers)
-                .responseJSON { response in
-                    if let JSON = response.result.value {
-                        // now populate values in the arrays!
+        let request = Alamofire.request(.GET, self.prepareRequestURL(), headers: headers)
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case .Success(let JSON):
+                    do {
                         let datas = JSON["data"]
-                        self.printResult(datas!!)
+                        try self.processImgurAPIResults(datas!!)
+                    } catch {
+                        self.displayErrorMessageToUser("An error occurred while processing Imgur results!")
                     }
+                case .Failure(let error):
+                    self.displayErrorMessageToUser(error.localizedDescription)
                 }
+                
+                defer {
+                    self.loader.stopAnimating()
+                }
+        }
+        
     }
     
-    func printResult (datas: AnyObject) {
-        if datas.count == 3 {
+    func displayErrorMessageToUser(errorMessage: String) {
+        let alert = UIAlertView()
+        alert.title = "Sorry, an error occurred while fetching Imgur's images"
+        alert.message = errorMessage
+        alert.addButtonWithTitle("OK")
+        alert.show()
+    }
+    
+    
+    // ToDO: Implement pagination, Don't just limit ourselves to 24 images
+    func processImgurAPIResults (datas: AnyObject) throws { // ToDO: Should it be cast to type array ?
+        
+        // For Testing purposes: 
+        // Simulate a runtime error and make sure we handle it correctly
+        // ... by displaying correct info to the user
+        //enum Err: ErrorType {
+        //    case A
+        //    case B
+        //}
+        //throw Err.A
+        
+        if datas.count == 3 { // ToDO: Why?
             let error = datas["error"] as! NSString
             self.label.text = error as String
         } else {
@@ -77,7 +109,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             self.titlesArray = [String]()
             
             var index = 0
-            while self.imagesArray.count < 24 && index != datas.count {
+            
+            while self.imagesArray.count < 24 && index < datas.count {
                 let array = datas[index]
                 
                 let str = array["link"] as! NSString
@@ -107,102 +140,92 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 index = index + 1
             }
             
-            // reload the view in order to use datas fetch from imgur's api
+            // Reload the view in order to use the data we just fetched from Imgur
             self.collectionView.reloadData()
-            self.loader.stopAnimating()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         label.text = ""
         
-        // Load all images in imgur gallery
         self.fetchImages()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func changeCategory(sender: AnyObject) {
-        // Let's control which category is selected by the user before making any request
-        if catController.selectedSegmentIndex == 0 {
-            // load hot images
-            category = "/hot"
-        }
-        if catController.selectedSegmentIndex == 1 {
-            // load top images
-            category = "/top"
-        }
-        if catController.selectedSegmentIndex == 2 {
-            // load user images
-            category = "/user"
+    @IBAction func changeSection(sender: AnyObject) {
+        switch(catController.selectedSegmentIndex) {
+        case 0:
+            section = "/hot"
+            break
+        case 1:
+            section = "/top"
+            break
+        case 2:
+            section = "/user"
+            break
+        default:
+            break
         }
         
-        // get images from specified category
         self.fetchImages()
     }
     
     @IBAction func changeSort(sender: AnyObject) {
-        // Let's control which sort is selected by the user before making any request
-        if sortController.selectedSegmentIndex == 0 {
-            // sort by viral images
+        switch(sortController.selectedSegmentIndex) {
+        case 0:
             sort = "/viral"
-        }
-        if sortController.selectedSegmentIndex == 1 {
-            // sort by top images
+            break
+        case 1:
             sort = "/top"
-        }
-        if sortController.selectedSegmentIndex == 2 {
-            // sort by time images
+            break
+        case 2:
             sort = "/time"
+            break
+        default:
+            break
         }
         
-        // get images from specified category
         self.fetchImages()
     }
     
     @IBAction func changeWindow(sender: AnyObject) {
-        // Let's control which window is selected by the user before making any request
-        if windowController.selectedSegmentIndex == 0 {
-            // get daily images
+        switch(windowController.selectedSegmentIndex) {
+        case 0:
             window = "/day"
-        }
-        if windowController.selectedSegmentIndex == 1 {
-            // get weekly images
+            break
+        case 1:
             window = "/week"
-        }
-        if windowController.selectedSegmentIndex == 2 {
-            // get monthly images
+            break
+        case 2:
             window = "/month"
-        }
-        if windowController.selectedSegmentIndex == 3 {
-            // get year images
+            break
+        case 3:
             window = "/year"
-        }
-        if windowController.selectedSegmentIndex == 4 {
-            // get all images
+            break
+        case 4:
             window = "/all"
+            break
+        default:
+            break
         }
         
-        // get images from specified category
         self.fetchImages()
     }
-
+    
     @IBAction func viralImages(sender: AnyObject) {
         if viralController.on {
-            // display viral images
             viralState = "?showViral=true"
         } else {
-            // hide viral images
             viralState = "?showViral=false"
         }
         
-        // get image form specified params
         self.fetchImages()
     }
     
